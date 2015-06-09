@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      $(function() {
+        var i = 0;
+        var searchTerm = '';
+        function getBooks(subject, startIndex){
+          $.get('https://www.googleapis.com/books/v1/volumes', {
+            q: subject,
+            startIndex: startIndex,
+            maxResults: 20
+          }, function(data) {
+            i = data.items.length;
+            $.each(data.items, function(index, value) {
+              var div = $('<div>');
+              div.appendTo('#image-div');
+              var title = value.volumeInfo.title;
+              var author = value.volumeInfo.authors;
+              div.html(title + '</br>' + author);
+              var img = $('<img>');
+              img.attr('src', value.volumeInfo.imageLinks.thumbnail);
+              img.appendTo(div);
+            });
+          
+          });
+        }
+
+        function search(){
+          searchTerm = $('.searchBox').val();
+          getBooks(searchTerm, i); 
+        }
+
+        $('.searchBtn').click(search);
+
+        $('#my_button').click(function(){
+          getBooks(searchTerm, i);
+        });
+        
+      });
+    </script>
+  </head>
+  <body>
+    <input type='text' class='searchBox'/>
+    <button class='searchBtn'>Search</button>
+    <div id='image-div'>
+    </div>
+    <button id='my_button'>More</button>
+  </body>
+</html>
