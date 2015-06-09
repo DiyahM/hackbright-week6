@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $.get("https://www.googleapis.com/books/v1/volumes?q=javascript",{},function(data){
+          $.each(data.items.slice(0,5), function(index, value) {
+            var img = $('<img>');
+            img.attr('src', value.volumeInfo.imageLinks.thumbnail);
+            img.appendTo('#image-div');
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id='image-div'>
+    </div>
+    <button id='my_button'>More</button>
+    <script>
+     $('button#my_button').click(function(){
+       $.get("https://www.googleapis.com/books/v1/volumes?q=javascript",{},function(data){
+          $.each(data.items.slice(5,10), function(index, value) {
+            var img = $('<img>');
+            img.attr('src', value.volumeInfo.imageLinks.thumbnail);
+            img.appendTo('#image-div');
+          });
+        });
+     }); 
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      $(function() {
+        function displayBooks(start, end) {
+
+          $.get("https://www.googleapis.com/books/v1/volumes?q=javascript",{},function(data){
+          $.each(data.items.slice(start,end), function(index, value) {
+            var img = $('<img>');
+            img.attr('src', value.volumeInfo.imageLinks.thumbnail);
+            img.appendTo('#image-div');
+          });
+        });
+        
+        }
+        displayBooks(0,5); 
+
+      });
+ 
+    </script>
+  </head>
+  <body>
+    <div id='image-div'>
+    </div>
+    <button id='my_button' onclick='displayBooks(6,10)'>More</button>
+  </body>
+</html>
